@@ -5,24 +5,20 @@ import random
 app = Flask(__name__)
 app.secret_key = "replace-with-a-random-secret"
 
-# -------------------------
+
 # Database connection
-# -------------------------
+
 def get_db():
     return sqlite3.connect("atm.db")
 
 
-# -------------------------
-# Home (Login Page)
-# -------------------------
+
 @app.route("/")
 def home():
     return render_template("login.html")
 
 
-# -------------------------
-# Login POST
-# -------------------------
+
 @app.route("/login", methods=["POST"])
 def login():
     token = request.form.get("token")
@@ -45,9 +41,7 @@ def login():
         return redirect(url_for("home"))
 
 
-# -------------------------
-# Dashboard
-# -------------------------
+
 @app.route("/dashboard/<token>")
 def dashboard(token):
     con = get_db()
@@ -60,9 +54,7 @@ def dashboard(token):
     return render_template("dashboard.html", token=token, balance=balance)
 
 
-# -------------------------
-# Create Account (GET + POST)
-# -------------------------
+
 @app.route("/create", methods=["GET", "POST"])
 def create_account():
     if request.method == "GET":
@@ -84,9 +76,7 @@ def create_account():
     return redirect(url_for("home"))
 
 
-# -------------------------
-# Deposit
-# -------------------------
+
 @app.route("/deposit", methods=["POST"])
 def deposit():
     token = request.form.get("token")
@@ -109,9 +99,7 @@ def deposit():
     return redirect(url_for("dashboard", token=token))
 
 
-# -------------------------
-# Withdraw
-# -------------------------
+
 @app.route("/withdraw", methods=["POST"])
 def withdraw():
     token = request.form.get("token")
@@ -141,7 +129,7 @@ def withdraw():
         cur.execute("INSERT INTO history(token, amount, action) VALUES(?,?,?)",
                     (token, amount, "WITHDRAW"))
 
-        con.commit()   # <--- IMPORTANT FIX
+        con.commit()   
 
         flash("Withdrawal successful")
 
@@ -149,9 +137,7 @@ def withdraw():
     return redirect(url_for("dashboard", token=token))
 
 
-# -------------------------
-# Transaction History
-# -------------------------
+
 @app.route("/history/<token>")
 def history(token):
     con = get_db()
@@ -168,8 +154,6 @@ def history(token):
     return render_template("history.html", token=token, rows=rows)
 
 
-# -------------------------
-# Start App
-# -------------------------
+
 if __name__ == "__main__":
     app.run(debug=True)
