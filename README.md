@@ -1,115 +1,152 @@
 # ATM-SIMULATION-WEB
-ATM Simulation System (Python + Flask + SQLite)
 
-This project is a web-based ATM Simulation System built as part of the VITyarthi “Build Your Own Project” requirement.
+This project is a **simple ATM simulation system** built using **Python** and connected to a **SQLite database**, with a basic web interface created with **Flask**.
 
-The core ATM logic (Python functions, transactions, rules, and validation) was fully developed by me.
-For the web interface (HTML/CSS) and SQLite integration, I took guidance and assistance from AI tools to convert my Python CLI project into a proper web application.
+The project includes all essential ATM features such as account creation, login, deposit, withdrawal, and transaction history.
 
-📌 Project Overview
+---
 
-This system simulates the basic operations of an ATM:
+## 📌 **About the Project**
 
-User login using Token + PIN
+This project started as a **Python console-based ATM program**, which I fully developed.
+Later, using **Flask and HTML/CSS**, I created a web interface to make it more interactive.
+I am not very experienced in web development, so **the UI and frontend structure were created with the help of AI**, while **all the Python logic and database workflow were implemented by me**.
 
-Creating new accounts with automatically generated credentials
+---
 
-Deposits
+## ⭐ **Features**
 
-Withdrawals (with rules like max ₹20,000 per transaction)
+### ✔ Core ATM Functions (Python authored by me)
 
-Transaction history with timestamps
+* Create new account (auto Token & PIN generation)
+* Secure login with Token + PIN
+* Deposit money
+* Withdraw money with limits
+* Transaction history stored with timestamp
+* Balance updates in real time
+* SQLite database backend
 
-SQLite database integration for storing user data and logs
+### ✔ Web Interface (UI designed with AI assistance)
 
-✨ Features
-1. Account Management
+* Login page
+* Dashboard
+* Deposit & Withdraw forms
+* History page
+* Responsive modern UI (HTML + CSS)
 
-Create an account
+---
 
-Auto-generated Token + PIN
+## 🗂 **Tech Stack**
 
-Initial deposit
+| Component | Technology        |
+| --------- | ----------------- |
+| Backend   | Python, Flask     |
+| Database  | SQLite (`atm.db`) |
+| Frontend  | HTML, CSS         |
+| Tools     | VS Code           |
 
-2. ATM Operations
+---
 
-Deposit money
+## 📦 Folder Structure
 
-Withdraw money
-
-Check balance
-
-View complete transaction history
-
-3. Backend (My Contribution)
-
-All Python logic (deposit, withdraw, history, login handling)
-
-ATM rules and validations
-
-SQLite table design
-
-Database operations (INSERT, UPDATE, SELECT)
-
-4. Frontend (Assisted Using AI)
-
-Login, dashboard, create-account pages
-
-Modern UI styling using HTML + CSS
-
-Responsive glassmorphism theme
-
-🛠️ Technologies Used
-
-Python 3
-
-Flask (Web Framework)
-
-SQLite3 (Database)
-
-HTML + CSS (User Interface)
-
-📂 Folder Structure
+```
 project/
 │── app.py
 │── init_db.py
 │── atm.db
 │── README.md
-│── static/
-│    └── css/style.css
-│── templates/
-     ├── login.html
-     ├── dashboard.html
-     ├── history.html
-     ├── create_account.html
+│
+├── templates/
+│   ├── login.html
+│   ├── dashboard.html
+│   ├── create_account.html
+│   ├── history.html
+│
+└── static/
+    └── css/
+        └── style.css
+```
 
-▶️ How to Run
+---
 
-Activate virtual environment
+## ▶️ **How to Run This Project Locally**
 
-.\venv\Scripts\activate
+Anyone can clone/download this project and run it on their own computer.
 
+### **1. Install Python**
 
-Run database initializer
+Make sure Python 3.10+ is installed.
 
+### **2. Create a Virtual Environment**
+
+```
+python -m venv venv
+```
+
+Activate it:
+
+**Windows PowerShell**
+
+```
+venv\Scripts\Activate
+```
+
+### **3. Install required packages**
+
+```
+pip install flask
+```
+
+### **4. Initialize the database**
+
+```
 python init_db.py
+```
 
+This creates the `atm.db` file with required tables.
 
-Start the Flask server
+### **5. Run the application**
 
+```
 python app.py
+```
+
+### **6. Open in browser**
+
+Go to:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## 📘 Project Purpose (For College Submission)
+
+This project was built for the **VITyarthi – Build Your Own Project** assignment.
+It demonstrates:
+
+* Application of Python logic
+* Working with files and databases (SQLite)
+* Backend implementation
+* Basic frontend integration
+* A complete deployed workflow on local system
+
+---
+
+## ✍️ My Contribution
+
+* I **fully developed the Python logic**, database operations, ATM workflow, and backend functionality.
+* I am not very experienced in web development, so the **HTML/CSS UI and page styling were created with AI assistance**.
+* I integrated everything into a working Flask application.
+
+---
+
+## 📄 License
+
+This project is for academic/learning purposes. Free to modify.
+
+---
 
 
-Open the browser:
 
-http://127.0.0.1:5000/
-
-📌 Notes
-
-The backend logic was originally written as a Python console ATM project, then expanded into a web app.
-
-UI design and Flask routing structure were improved with AI assistance.
-
-📜 License
-
-This project is created for academic use under VITyarthi project submission.
