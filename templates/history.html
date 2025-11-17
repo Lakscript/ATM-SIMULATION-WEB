@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Transaction History</h2>
+
+<ul class="history-list">
+  {% for amt, action, ts in rows %}
+    <li>{{ ts }} — <strong>{{ action }}</strong> — ₹{{ amt }}</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{{ url_for('dashboard', token=token) }}">Back</a></p>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Welcome, {{token}}</h2>
+<p class="balance">Balance: ₹{{balance}}</p>
+
+<div class="row">
+
+    <div class="card">
+        <h3>Deposit</h3>
+        <form action="/deposit" method="post">
+          <input type="hidden" name="token" value="{{token}}">
+          <input name="amount" placeholder="Enter amount">
+          <button>Deposit</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Withdraw</h3>
+        <form action="/withdraw" method="post">
+          <input type="hidden" name="token" value="{{token}}">
+          <input name="amount" placeholder="Enter amount">
+          <button>Withdraw</button>
+        </form>
+    </div>
+
+</div>
+
+<p>
+<a href="{{ url_for('history', token=token) }}">View Transaction History</a>
+</p>
+{% endblock %}

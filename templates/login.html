@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Login</h2>
+
+<form method="post" action="/login" class="card">
+  <label>Token:</label>
+  <input name="token" required>
+
+  <label>PIN:</label>
+  <input name="pin" type="password" required>
+
+  <button type="submit">Login</button>
+</form>
+
+<p><a href="/create">Create new account</a></p>
+{% endblock %}
