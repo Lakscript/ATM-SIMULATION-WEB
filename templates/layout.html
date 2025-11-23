@@ -1,27 +1,25 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>{{ title if title else "ATM System" }}</title>
+    <meta charset="UTF-8">
+    <title>ATM Simulator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
 <nav class="navbar">
-    <h2>ATM System</h2>
+    <div class="logo">ATM Simulator</div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('login_page') }}">Home</a>
+        <a href="{{ url_for('create_account') }}">Create Account</a>
+        <a href="{{ url_for('login_page') }}">Login</a>
+        <a href="#">View Account</a>
+    </div>
 </nav>
 
-<div class="container">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash">
-          {% for m in messages %}
-            <p>{{m}}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-
+<div class="content">
     {% block content %}{% endblock %}
 </div>
 

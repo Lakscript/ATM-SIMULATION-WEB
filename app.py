@@ -5,6 +5,7 @@ import random
 app = Flask(__name__)
 app.secret_key = "replace-with-a-random-secret"
 
+
 # -------------------------
 # Database connection
 # -------------------------
@@ -13,15 +14,15 @@ def get_db():
 
 
 # -------------------------
-# Home (Login Page)
+# Default route → Login Page
 # -------------------------
 @app.route("/")
-def home():
+def login_page():
     return render_template("login.html")
 
 
 # -------------------------
-# Login POST
+# Login Handler
 # -------------------------
 @app.route("/login", methods=["POST"])
 def login():
@@ -29,8 +30,8 @@ def login():
     pin = request.form.get("pin")
 
     if not token or not pin:
-        flash("Please enter token and PIN")
-        return redirect(url_for("home"))
+        flash("Please enter Token and PIN")
+        return redirect(url_for("login_page"))
 
     con = get_db()
     cur = con.cursor()
@@ -41,8 +42,8 @@ def login():
     if user:
         return redirect(url_for("dashboard", token=token))
     else:
-        flash("Invalid token or PIN")
-        return redirect(url_for("home"))
+        flash("Invalid Token or PIN")
+        return redirect(url_for("login_page"))
 
 
 # -------------------------
@@ -61,7 +62,7 @@ def dashboard(token):
 
 
 # -------------------------
-# Create Account (GET + POST)
+# Create Account
 # -------------------------
 @app.route("/create", methods=["GET", "POST"])
 def create_account():
@@ -75,13 +76,15 @@ def create_account():
 
     con = get_db()
     cur = con.cursor()
-    cur.execute("INSERT INTO accounts(token, pin, balance) VALUES(?,?,?)",
-                (token, pin, initial))
+    cur.execute(
+        "INSERT INTO accounts(token, pin, balance) VALUES (?, ?, ?)",
+        (token, pin, initial),
+    )
     con.commit()
     con.close()
 
     flash(f"Account created! Token: {token}, PIN: {pin}")
-    return redirect(url_for("home"))
+    return redirect(url_for("login_page"))
 
 
 # -------------------------
@@ -95,12 +98,11 @@ def deposit():
     con = get_db()
     cur = con.cursor()
 
-    # Update balance
     cur.execute("UPDATE accounts SET balance = balance + ? WHERE token=?", (amount, token))
-
-    # Insert into history
-    cur.execute("INSERT INTO history(token, amount, action) VALUES(?,?,?)",
-                (token, amount, "DEPOSIT"))
+    cur.execute(
+        "INSERT INTO history(token, amount, action) VALUES (?, ?, ?)",
+        (token, amount, "DEPOSIT"),
+    )
 
     con.commit()
     con.close()
@@ -120,29 +122,27 @@ def withdraw():
     con = get_db()
     cur = con.cursor()
 
-    # Check balance
     cur.execute("SELECT balance FROM accounts WHERE token=?", (token,))
     row = cur.fetchone()
 
     if not row:
         flash("Account not found")
         con.close()
-        return redirect(url_for("home"))
+        return redirect(url_for("login_page"))
 
     balance = row[0]
 
     if amount > balance:
         flash("Insufficient balance")
     elif amount > 20000:
-        flash("Cannot withdraw more than 20000 at once")
+        flash("Cannot withdraw more than ₹20,000 at once")
     else:
-        # Deduct and record transaction
         cur.execute("UPDATE accounts SET balance = balance - ? WHERE token=?", (amount, token))
-        cur.execute("INSERT INTO history(token, amount, action) VALUES(?,?,?)",
-                    (token, amount, "WITHDRAW"))
-
-        con.commit()   # <--- IMPORTANT FIX
-
+        cur.execute(
+            "INSERT INTO history(token, amount, action) VALUES (?, ?, ?)",
+            (token, amount, "WITHDRAW"),
+        )
+        con.commit()
         flash("Withdrawal successful")
 
     con.close()
@@ -156,12 +156,15 @@ def withdraw():
 def history(token):
     con = get_db()
     cur = con.cursor()
-    cur.execute("""
+    cur.execute(
+        """
         SELECT amount, action, timestamp 
         FROM history 
         WHERE token=? 
         ORDER BY timestamp DESC
-    """, (token,))
+    """,
+        (token,),
+    )
     rows = cur.fetchall()
     con.close()
 
@@ -169,7 +172,7 @@ def history(token):
 
 
 # -------------------------
-# Start App
+# Run App
 # -------------------------
 if __name__ == "__main__":
     app.run(debug=True)

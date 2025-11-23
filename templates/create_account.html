@@ -1,12 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Create Account</h2>
 
-<form method="post" class="card">
-  <label>Initial Deposit</label>
-  <input name="initial" value="0">
+<div class="center-card">
+    <h2>Create New Account</h2>
 
-  <button type="submit">Create</button>
-</form>
+    <form action="{{ url_for('create_account') }}" method="POST">
+        <label>Initial Deposit</label>
+        <input type="number" name="initial" required>
+
+        <button class="btn-primary">Create Account</button>
+    </form>
+</div>
 
 {% endblock %}
